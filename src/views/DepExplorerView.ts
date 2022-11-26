@@ -57,13 +57,13 @@ export default class DepExplorerView
 
   protected getTreeElement = async (element: DepTreeItem) => {
     if (element.depType === DepTypeEnum.Dependency) {
-      const statsModules = await DepService.singleton.getDependencies(
+      const dependencies = await DepService.singleton.getDependencies(
         element.depUri
       );
       const items: DepTreeItem[] = [];
 
-      for (const statsModule of statsModules) {
-        const uri = vscode.Uri.parse(statsModule.vscodeExporterPath);
+      for (const dependency of dependencies) {
+        const uri = vscode.Uri.parse(dependency);
         const item = new DepTreeItem(uri);
         item.depUri = uri;
         item.command = {
@@ -79,13 +79,13 @@ export default class DepExplorerView
 
       return items;
     } else {
-      const statsModules = await DepService.singleton.getDependents(
+      const dependents = await DepService.singleton.getDependents(
         element.depUri
       );
       const items: DepTreeItem[] = [];
 
-      for (const statsModule of statsModules) {
-        const uri = vscode.Uri.parse(statsModule.vscodeImporterPath);
+      for (const dependent of dependents) {
+        const uri = vscode.Uri.parse(dependent);
         const item = new DepTreeItem(uri);
         item.depUri = uri;
         item.command = {

@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-import { IStatsModule } from ".";
+import { DepMap } from ".";
+import getDependencyMap from "./core/getDependencyMap";
 import getStatsModules from "./core/getStatsModules";
 
 let singletonInstance: DepService;
@@ -12,65 +13,90 @@ export class DepService {
     return singletonInstance;
   }
 
-  workspacePathStatsModulesMap = new Map<string, IStatsModule[]>();
+  workspacePathDependencyMapMap = new Map<string, DepMap>();
+  workspacePathDependentMapMap = new Map<string, DepMap>();
 
   constructor() {}
 
-  async getDependencies(uri?: vscode.Uri): Promise<IStatsModule[]> {
+  async getDependencies(uri?: vscode.Uri): Promise<string[]> {
     const path = uri?.path;
     if (!path) {
       return [];
     }
 
-    const statsModules = await this.getStatsModules(uri);
-
-    const dependencies = statsModules.filter(
-      (statsModule) => statsModule.vscodeImporterPath === path
+    const dependencyMap = await this.getDependencyMapByWorkspace(
+      vscode.workspace.getWorkspaceFolder(uri)
     );
+
+    const dependencies = [...(dependencyMap.get(path) || [])];
 
     return dependencies;
   }
 
-  async getDependents(uri?: vscode.Uri): Promise<IStatsModule[]> {
+  async getDependents(uri?: vscode.Uri): Promise<string[]> {
     const path = uri?.path;
     if (!path) {
       return [];
     }
 
-    const statsModules = await this.getStatsModules(uri);
-
-    const dependencies = statsModules.filter(
-      (statsModule) => statsModule.vscodeExporterPath === path
+    const dependentMap = await this.getDependentMapByWorkspace(
+      vscode.workspace.getWorkspaceFolder(uri)
     );
 
-    return dependencies;
+    const dependents = [...(dependentMap.get(path) || [])];
+
+    return dependents;
   }
 
-  async getStatsModules(uri: vscode.Uri): Promise<IStatsModule[]> {
-    const workspace = vscode.workspace.getWorkspaceFolder(uri);
-
-    const statsModules = await this.getStatsModulesByWorkspace(workspace);
-
-    return statsModules;
-  }
-
-  async getStatsModulesByWorkspace(
+  async getDependencyMapByWorkspace(
     workspace?: vscode.WorkspaceFolder
-  ): Promise<IStatsModule[]> {
+  ): Promise<DepMap> {
     const path = workspace?.uri?.path;
 
     if (!path) {
-      return [];
+      return new Map();
     }
 
-    if (this.workspacePathStatsModulesMap.has(path)) {
-      return this.workspacePathStatsModulesMap.get(path) || [];
+    let dependencyMap = this.workspacePathDependencyMapMap.get(path);
+
+    if (!dependencyMap) {
+      const statsModules = await getStatsModules(workspace.uri);
+      dependencyMap = getDependencyMap(statsModules, workspace.uri);
+      this.workspacePathDependencyMapMap.set(path, dependencyMap);
     }
 
-    const statsModules = await getStatsModules(workspace.uri);
+    return dependencyMap;
+  }
 
-    this.workspacePathStatsModulesMap.set(path, statsModules);
+  async getDependentMapByWorkspace(
+    workspace?: vscode.WorkspaceFolder
+  ): Promise<DepMap> {
+    const path = workspace?.uri?.path;
 
-    return statsModules;
+    if (!path) {
+      return new Map();
+    }
+
+    let dependentMap = this.workspacePathDependentMapMap.get(path);
+
+    if (!dependentMap) {
+      const dependencyMap = await this.getDependencyMapByWorkspace(workspace);
+      dependentMap = new Map();
+
+      for (const [dependent, dependencies] of dependencyMap) {
+        for (const dependency of dependencies) {
+          let dependents = dependentMap.get(dependency);
+          if (!dependents) {
+            dependents = new Set();
+            dependentMap.set(dependency, dependents);
+          }
+          dependents.add(dependent);
+        }
+      }
+
+      this.workspacePathDependentMapMap.set(path, dependentMap);
+    }
+
+    return dependentMap;
   }
 }

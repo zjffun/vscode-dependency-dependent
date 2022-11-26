@@ -13,21 +13,37 @@ suite("DepService", () => {
     assert.ok(depService);
   });
 
+  test("getDependentMapByWorkspace should work", async () => {
+    const depService = new DepService();
+    const dependentMap = await depService.getDependentMapByWorkspace(
+      vscode.workspace.getWorkspaceFolder(testWorkspaceRoot)
+    );
+
+    const vueComponentPath = vscode.Uri.joinPath(
+      testWorkspaceRoot,
+      "src",
+      "vue",
+      "Component.vue"
+    ).path;
+
+    assert.equal(dependentMap.get(vueComponentPath)?.size, 1);
+  });
+
   test("getDependency should work", async () => {
     const depService = new DepService();
     const uri = vscode.Uri.joinPath(testWorkspaceRoot, "src", "App.js");
 
-    const statsModules = await depService.getDependencies(uri);
+    const dependencies = await depService.getDependencies(uri);
 
-    assert.equal(statsModules.length, 2);
+    assert.equal(dependencies.length, 4);
   });
 
   test("getDependent should work", async () => {
     const depService = new DepService();
     const uri = vscode.Uri.joinPath(testWorkspaceRoot, "src", "App.js");
 
-    const statsModules = await depService.getDependents(uri);
+    const dependents = await depService.getDependents(uri);
 
-    assert.equal(statsModules.length, 1);
+    assert.equal(dependents.length, 1);
   });
 });

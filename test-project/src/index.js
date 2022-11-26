@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import VueApp from "./vue/App.vue";
+import VueApp from './vue/App.vue';
+import Component from '@/components/Component.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
