@@ -1,0 +1,9 @@
+.DS_Store
+
+// These files will be generated from the i18n folder
+*nls.*.json
+/out
+dist
+node_modules
+.vscode-test/
+*.vsix

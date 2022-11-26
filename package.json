@@ -1,0 +1,93 @@
+{
+  "name": "dependency-dependent",
+  "displayName": "Dependency & Dependent",
+  "description": "Show dependencies and dependents.",
+  "keywords": [
+    "dependency",
+    "dependent"
+  ],
+  "version": "0.0.1",
+  "publisher": "zjffun",
+  "engines": {
+    "vscode": "^1.59.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zjffun/vscode-dependency-dependent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zjffun/vscode-dependency-dependent/issues"
+  },
+  "homepage": "https://github.com/zjffun/vscode-dependency-dependent#readme",
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:dependency-dependent-DepExplorerView"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "dependency-dependent-DepExplorerView",
+          "name": "%extension.DepExplorerView.name%"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "dependency-dependent.refresh",
+          "when": "view == dependency-dependent-DepExplorerView",
+          "group": "navigation@10"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "dependency-dependent.refresh",
+        "title": "%extension.refresh.title%",
+        "icon": "$(refresh)",
+        "category": "Dependency & Dependent"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "compile": "gulp build",
+    "watch": "gulp watch",
+    "pretest": "yarn run compile && yarn run lint",
+    "test": "node ./out/test/runTest.js",
+    "lint": "eslint src --ext ts",
+    "deploy": "vsce publish --yarn",
+    "_vscode:pack": "vsce package",
+    "_vscode:install": "ls dependency-dependent-*.vsix | xargs code --install-extension",
+    "_vscode:uninstall": "code --uninstall-extension zjffun.dependency-dependent"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.2.2",
+    "@types/vscode": "^1.59.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "del": "^6.0.0",
+    "eslint": "^7.27.0",
+    "glob": "^7.1.7",
+    "gulp": "^4.0.2",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "mocha": "^8.4.0",
+    "typescript": "^4.4.4",
+    "vsce": "^1.99.0",
+    "vscode-nls-dev": "^4.0.0",
+    "vscode-test": "^1.5.2",
+    "webpack": "^5.75.0"
+  },
+  "dependencies": {
+    "vscode-nls": "^5.0.1"
+  },
+  "icon": "images/icon.png"
+}
