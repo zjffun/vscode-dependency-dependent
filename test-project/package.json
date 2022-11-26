@@ -54,6 +54,7 @@
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.0.2",
     "terser-webpack-plugin": "^5.2.5",
+    "vue": "^3.2.45",
     "web-vitals": "^2.1.4",
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
@@ -139,5 +140,9 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "vue-loader": "^17.0.1",
+    "vue-template-compiler": "^2.7.14"
   }
 }
