@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { DepService } from "./DepService";
 // nlsConfig must before other imports
 import "./nlsConfig";
 
@@ -19,9 +20,13 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("dependency-dependent.refresh", () => {
-      DepExplorerView.singleton.refresh();
-    })
+    vscode.commands.registerCommand(
+      "dependency-dependent.refresh",
+      async () => {
+        await DepService.singleton.updateActiveWorkspaceDepMap();
+        DepExplorerView.singleton.refresh();
+      }
+    )
   );
 }
 

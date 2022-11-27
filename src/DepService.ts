@@ -49,7 +49,8 @@ export class DepService {
   }
 
   async getDependencyMapByWorkspace(
-    workspace?: vscode.WorkspaceFolder
+    workspace?: vscode.WorkspaceFolder,
+    forceUpdate?: boolean
   ): Promise<DepMap> {
     const path = workspace?.uri?.path;
 
@@ -59,7 +60,7 @@ export class DepService {
 
     let dependencyMap = this.workspacePathDependencyMapMap.get(path);
 
-    if (!dependencyMap) {
+    if (!dependencyMap || forceUpdate === true) {
       const statsModules = await getStatsModules(workspace.uri);
       dependencyMap = getDependencyMap(statsModules, workspace.uri);
       this.workspacePathDependencyMapMap.set(path, dependencyMap);
@@ -69,7 +70,8 @@ export class DepService {
   }
 
   async getDependentMapByWorkspace(
-    workspace?: vscode.WorkspaceFolder
+    workspace?: vscode.WorkspaceFolder,
+    forceUpdate?: boolean
   ): Promise<DepMap> {
     const path = workspace?.uri?.path;
 
@@ -79,7 +81,7 @@ export class DepService {
 
     let dependentMap = this.workspacePathDependentMapMap.get(path);
 
-    if (!dependentMap) {
+    if (!dependentMap || forceUpdate === true) {
       const dependencyMap = await this.getDependencyMapByWorkspace(workspace);
       dependentMap = new Map();
 
@@ -98,5 +100,20 @@ export class DepService {
     }
 
     return dependentMap;
+  }
+
+  async updateActiveWorkspaceDepMap() {
+    const uri = vscode.window.activeTextEditor?.document?.uri;
+
+    if (!uri) {
+      return false;
+    }
+
+    const workspace = vscode.workspace.getWorkspaceFolder(uri);
+
+    await this.getDependencyMapByWorkspace(workspace, true);
+    await this.getDependentMapByWorkspace(workspace, true);
+
+    return true;
   }
 }
