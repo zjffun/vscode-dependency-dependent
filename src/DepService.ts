@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
+import webpackDep from "webpack-dep";
 import { DepMap } from ".";
-import getDependencyMap from "./core/getDependencyMap";
-import getStatsModules from "./core/getStatsModules";
 
 let singletonInstance: DepService;
 
@@ -58,15 +57,37 @@ export class DepService {
       return new Map();
     }
 
+    const config = vscode.workspace.getConfiguration("dependencyDependent");
+    const excludesConfig = config.get<string[]>("excludes") || [];
+    const entryConfig = config.get<string[]>("entryPoints") || [];
+    const entry = entryConfig.map(
+      (entry) => vscode.Uri.joinPath(workspace.uri, entry).path
+    );
+
     let dependencyMap = this.workspacePathDependencyMapMap.get(path);
 
     if (!dependencyMap || forceUpdate === true) {
-      const statsModules = await getStatsModules(workspace.uri);
-      dependencyMap = getDependencyMap(statsModules, workspace.uri);
-      this.workspacePathDependencyMapMap.set(path, dependencyMap);
+      dependencyMap = new Map();
+
+      const rawDependencyMap = await webpackDep({
+        entry,
+        appDirectory: path,
+        excludes: excludesConfig,
+      });
+
+      for (const [key, rawDependencies] of rawDependencyMap) {
+        const dependencies = new Set<string>();
+        for (const rawDependency of rawDependencies) {
+          dependencies.add(vscode.Uri.file(rawDependency).path);
+        }
+
+        dependencyMap.set(vscode.Uri.file(key).path, dependencies);
+      }
+
+      this.workspacePathDependencyMapMap.set(path, dependencyMap!);
     }
 
-    return dependencyMap;
+    return dependencyMap!;
   }
 
   async getDependentMapByWorkspace(

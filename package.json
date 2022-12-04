@@ -28,6 +28,42 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Dependency & Dependent",
+      "properties": {
+        "dependencyDependent.entryPoints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "src/index.ts",
+            "src/index.js",
+            "src/index.tsx",
+            "src/index.jsx",
+            "src/index.vue",
+            "src/main.ts",
+            "src/main.js",
+            "src/main.tsx",
+            "src/main.jsx",
+            "src/main.vue"
+          ],
+          "scope": "window",
+          "description": "Entry points to find dependencies and dependents."
+        },
+        "dependencyDependent.excludes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "node_modules"
+          ],
+          "scope": "window",
+          "description": "Exclude finding dependencies in these conditions."
+        }
+      }
+    },
     "views": {
       "explorer": [
         {
@@ -36,6 +72,12 @@
         }
       ]
     },
+    "viewsWelcome": [
+      {
+        "view": "dependency-dependent-DepExplorerView",
+        "contents": "No entry points found [learn more](https://github.com/zjffun/vscode-dependency-dependent).\n[Config Entry Points](command:dependency-dependent.configEntryPoints)"
+      }
+    ],
     "menus": {
       "view/title": [
         {
@@ -50,6 +92,11 @@
         "command": "dependency-dependent.refresh",
         "title": "%extension.refresh.title%",
         "icon": "$(refresh)",
+        "category": "Dependency & Dependent"
+      },
+      {
+        "command": "dependency-dependent.configEntryPoints",
+        "title": "%extension.configEntryPoints.title%",
         "category": "Dependency & Dependent"
       }
     ]
@@ -88,7 +135,8 @@
     "webpack": "^5.75.0"
   },
   "dependencies": {
-    "vscode-nls": "^5.0.1"
+    "vscode-nls": "^5.0.1",
+    "webpack-dep": "^0.2.0"
   },
   "icon": "images/icon.png"
 }

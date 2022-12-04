@@ -35,7 +35,7 @@ suite("DepService", () => {
 
     const dependencies = await depService.getDependencies(uri);
 
-    assert.equal(dependencies.length, 4);
+    assert.equal(dependencies.length, 3);
   });
 
   test("getDependent should work", async () => {

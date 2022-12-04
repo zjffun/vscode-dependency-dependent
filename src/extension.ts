@@ -28,6 +28,20 @@ export function activate(context: vscode.ExtensionContext) {
       }
     )
   );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "dependency-dependent.configEntryPoints",
+      async () => {
+        vscode.commands.executeCommand(
+          "workbench.action.openWorkspaceSettings",
+          {
+            query: "dependencyDependent.entryPoints",
+          }
+        );
+      }
+    )
+  );
 }
 
 export function deactivate() {}
