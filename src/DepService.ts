@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import webpackDep from "webpack-dep";
 import { DepMap } from ".";
+import { log } from "./extension";
 
 let singletonInstance: DepService;
 
@@ -67,13 +68,24 @@ export class DepService {
     let dependencyMap = this.workspacePathDependencyMapMap.get(path);
 
     if (!dependencyMap || forceUpdate === true) {
-      dependencyMap = new Map();
-
-      const rawDependencyMap = await webpackDep({
+      const options = {
         entry,
         appDirectory: path,
         excludes: excludesConfig,
-      });
+        errorCb(errors: any[]) {
+          log.appendLine(
+            `Error get dependency map: ${JSON.stringify(errors, null, 2)}`
+          );
+        },
+      };
+
+      log.appendLine(
+        `Start get dependency map: ${JSON.stringify(options, null, 2)}`
+      );
+
+      dependencyMap = new Map();
+
+      const rawDependencyMap = await webpackDep(options);
 
       for (const [key, rawDependencies] of rawDependencyMap) {
         const dependencies = new Set<string>();
@@ -83,6 +95,12 @@ export class DepService {
 
         dependencyMap.set(vscode.Uri.file(key).path, dependencies);
       }
+
+      log.appendLine(
+        `End get dependency map: ${JSON.stringify({
+          dependencyMapSize: dependencyMap.size,
+        })}`
+      );
 
       this.workspacePathDependencyMapMap.set(path, dependencyMap!);
     }

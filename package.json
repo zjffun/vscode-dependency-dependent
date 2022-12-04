@@ -110,7 +110,8 @@
     "test:generate-stats": "cd test-project && yarn install && yarn run build:stats",
     "lint": "eslint src --ext ts",
     "deploy": "vsce publish --yarn",
-    "_vscode:pack": "vsce package",
+    "fix:pack": "esbuild ./node_modules/ana-loader/dist/index.js --bundle --outfile=./node_modules/ana-loader/dist/index.js --allow-overwrite --external:vue --external:vue-template-compiler --format=cjs --platform=node",
+    "_vscode:pack": "yarn run fix:pack && vsce package",
     "_vscode:install": "ls dependency-dependent-*.vsix | xargs code --install-extension",
     "_vscode:uninstall": "code --uninstall-extension zjffun.dependency-dependent"
   },
@@ -122,6 +123,7 @@
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
     "del": "^6.0.0",
+    "esbuild": "^0.15.17",
     "eslint": "^7.27.0",
     "glob": "^7.1.7",
     "gulp": "^4.0.2",
@@ -129,7 +131,7 @@
     "gulp-typescript": "^6.0.0-alpha.1",
     "mocha": "^8.4.0",
     "typescript": "^4.4.4",
-    "vsce": "^1.99.0",
+    "vsce": "^1.103.1",
     "vscode-nls-dev": "^4.0.0",
     "vscode-test": "^1.5.2",
     "webpack": "^5.75.0"
