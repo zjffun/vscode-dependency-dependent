@@ -1,7 +1,7 @@
-import * as fs from "fs";
 import * as vscode from "vscode";
 import getRelativePath from "../core/getRelativePath";
 import { DepService } from "../DepService";
+import { log } from "../extension";
 
 let depExplorerView: DepExplorerView;
 
@@ -105,7 +105,10 @@ export default class DepExplorerView
   };
 
   protected async getTreeRoot() {
-    if (!this.anyEntryPointExist()) {
+    try {
+      await DepService.getEntryPoints();
+    } catch (e: any) {
+      log.appendLine(e.message);
       return null;
     }
 
@@ -122,25 +125,5 @@ export default class DepExplorerView
     dependentTreeItem.depUri = vscode.window.activeTextEditor?.document?.uri;
 
     return [dependencyTreeItem, dependentTreeItem];
-  }
-
-  protected anyEntryPointExist() {
-    const uri = vscode.window.activeTextEditor?.document?.uri;
-    if (!uri) {
-      return true;
-    }
-
-    const workspace = vscode.workspace.getWorkspaceFolder(uri);
-    if (!workspace?.uri) {
-      return true;
-    }
-
-    const config = vscode.workspace.getConfiguration("dependencyDependent");
-    const entryConfig = config.get<string[]>("entryPoints") || [];
-    const result = entryConfig.some((entry) =>
-      fs.existsSync(vscode.Uri.joinPath(workspace.uri, entry).fsPath)
-    );
-
-    return result;
   }
 }

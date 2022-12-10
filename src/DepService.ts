@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import * as vscode from "vscode";
 import webpackDep from "webpack-dep";
 import { DepMap } from ".";
@@ -60,16 +61,13 @@ export class DepService {
 
     const config = vscode.workspace.getConfiguration("dependencyDependent");
     const excludesConfig = config.get<string[]>("excludes") || [];
-    const entryConfig = config.get<string[]>("entryPoints") || [];
-    const entry = entryConfig.map(
-      (entry) => vscode.Uri.joinPath(workspace.uri, entry).path
-    );
+    const entryPoints = DepService.getEntryPoints();
 
     let dependencyMap = this.workspacePathDependencyMapMap.get(path);
 
     if (!dependencyMap || forceUpdate === true) {
       const options = {
-        entry,
+        entry: entryPoints,
         appDirectory: path,
         excludes: excludesConfig,
         errorCb(errors: any[]) {
@@ -154,5 +152,37 @@ export class DepService {
     await this.getDependentMapByWorkspace(workspace, true);
 
     return true;
+  }
+
+  static getEntryPoints() {
+    const uri = vscode.window.activeTextEditor?.document?.uri;
+    if (!uri) {
+      log.appendLine("No `activeTextEditor.document.uri` found.");
+      return [];
+    }
+
+    const workspace = vscode.workspace.getWorkspaceFolder(uri);
+    if (!workspace?.uri) {
+      log.appendLine("No `workspace.uri` found.");
+      return [];
+    }
+
+    const config = vscode.workspace.getConfiguration("dependencyDependent");
+    const entryConfig = config.get<string[]>("entryPoints") || [];
+
+    const result = [];
+
+    for (const entry of entryConfig) {
+      const fsPath = vscode.Uri.joinPath(workspace.uri, entry).fsPath;
+      if (fs.existsSync(fsPath)) {
+        result.push(fsPath);
+      }
+    }
+
+    if (!result.length) {
+      throw new Error("No entry points found.");
+    }
+
+    return result;
   }
 }

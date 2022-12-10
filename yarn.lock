@@ -5142,10 +5142,10 @@ watchpack@^2.4.0:
     glob-to-regexp "^0.4.1"
     graceful-fs "^4.1.2"
 
-webpack-dep@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.npmmirror.com/webpack-dep/-/webpack-dep-0.2.0.tgz#aa966968e81b13be308772b871a7331f0ca616fa"
-  integrity sha512-JQZ03gQk7cndOy5HVZT9PT+jkuBmVf+m51w+Rpsfl3bQAxlnK3qUtP5DNS4+LCF83cDt/s9114YPKEcBoSvFkg==
+webpack-dep@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.npmmirror.com/webpack-dep/-/webpack-dep-0.2.1.tgz#49e9fc3c6e7f2b4c91f2ac688e93d718a6fea644"
+  integrity sha512-TMebtx6zSWtrGNdQ49dL3INlmEQVfAYd4VO9vadGRa7i0ppeBbGwn8cnQlFeqG+eorlgbRY2zhVfPXIf9sHVwA==
   dependencies:
     ana-loader "^0.1.0"
     commander "^9.4.1"
