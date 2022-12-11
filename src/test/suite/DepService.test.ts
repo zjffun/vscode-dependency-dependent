@@ -14,24 +14,28 @@ suite("DepService", () => {
   });
 
   test("getDependentMapByWorkspace should work", async () => {
+    const uri = vscode.Uri.joinPath(
+      testWorkspaceRoot,
+      "src",
+      "vue",
+      "Component.vue"
+    );
+
+    await vscode.commands.executeCommand("vscode.open", uri);
+
     const depService = new DepService();
     const dependentMap = await depService.getDependentMapByWorkspace(
       vscode.workspace.getWorkspaceFolder(testWorkspaceRoot)
     );
 
-    const vueComponentPath = vscode.Uri.joinPath(
-      testWorkspaceRoot,
-      "src",
-      "vue",
-      "Component.vue"
-    ).path;
-
-    assert.equal(dependentMap.get(vueComponentPath)?.size, 1);
+    assert.equal(dependentMap.get(uri.path)?.size, 1);
   });
 
   test("getDependency should work", async () => {
     const depService = new DepService();
     const uri = vscode.Uri.joinPath(testWorkspaceRoot, "src", "App.js");
+
+    await vscode.commands.executeCommand("vscode.open", uri);
 
     const dependencies = await depService.getDependencies(uri);
 
@@ -41,6 +45,8 @@ suite("DepService", () => {
   test("getDependent should work", async () => {
     const depService = new DepService();
     const uri = vscode.Uri.joinPath(testWorkspaceRoot, "src", "App.js");
+
+    await vscode.commands.executeCommand("vscode.open", uri);
 
     const dependents = await depService.getDependents(uri);
 
