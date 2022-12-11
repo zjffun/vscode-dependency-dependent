@@ -6,7 +6,7 @@
     "dependency",
     "dependent"
   ],
-  "version": "0.0.4",
+  "version": "0.1.0",
   "publisher": "zjffun",
   "engines": {
     "vscode": "^1.59.0"
