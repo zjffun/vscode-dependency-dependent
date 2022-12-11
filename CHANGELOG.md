@@ -1,3 +1,7 @@
+# v0.1.0
+
+- Add images and settings description in document.
+
 # v0.0.3
 
 - Fix bug build ana-loader.
