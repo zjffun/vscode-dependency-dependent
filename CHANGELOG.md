@@ -1,5 +1,9 @@
 # v0.0.3
 
+- Fix bug build ana-loader.
+
+# v0.0.3
+
 - Added features log errors.
 
 # v0.0.2
