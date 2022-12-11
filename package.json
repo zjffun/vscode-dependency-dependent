@@ -102,7 +102,7 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "yarn run compile",
+    "vscode:prepublish": "yarn run fix:pack && yarn run compile",
     "compile": "gulp build",
     "watch": "gulp watch",
     "pretest": "yarn run compile && yarn run lint && yarn run test:generate-stats",
