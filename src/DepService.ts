@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import webpackDep from "webpack-dep";
 import { DepMap } from ".";
 import { log } from "./extension";
+import { webpackConfigFileName } from "./share";
 
 let singletonInstance: DepService;
 
@@ -62,14 +63,40 @@ export class DepService {
     const config = vscode.workspace.getConfiguration("dependencyDependent");
     const excludesConfig = config.get<string[]>("excludes") || [];
     const entryPoints = DepService.getEntryPoints();
+    let webpackConfigFn: any;
+
+    try {
+      webpackConfigFn = await DepService.getWebpackConfigFn();
+    } catch (error) {
+      log.appendLine(`Error get webpack config: ${error}`);
+    }
 
     let dependencyMap = this.workspacePathDependencyMapMap.get(path);
 
     if (!dependencyMap || forceUpdate === true) {
       const options = {
-        entry: entryPoints,
         appDirectory: path,
         excludes: excludesConfig,
+        webpackConfig(config: any) {
+          let _config = config;
+          _config.entry = entryPoints;
+
+          if (typeof webpackConfigFn === "function") {
+            try {
+              const configResult = webpackConfigFn(_config);
+              if (!configResult) {
+                throw Error("function return undefined");
+              }
+              _config = configResult;
+            } catch (error) {
+              log.appendLine(
+                `Error run dependency-dependent-webpack-config.js: ${error}`
+              );
+            }
+          }
+
+          return config;
+        },
         errorCb(errors: any[]) {
           log.appendLine(
             `Error get dependency map: ${JSON.stringify(errors, null, 2)}`
@@ -184,5 +211,37 @@ export class DepService {
     }
 
     return result;
+  }
+
+  static async getWebpackConfigFn() {
+    const uri = vscode.window.activeTextEditor?.document?.uri;
+    if (!uri) {
+      log.appendLine("No `activeTextEditor.document.uri` found.");
+      return;
+    }
+
+    const workspace = vscode.workspace.getWorkspaceFolder(uri);
+    if (!workspace?.uri) {
+      log.appendLine("No `workspace.uri` found.");
+      return;
+    }
+
+    const webpackConfigFileUri = vscode.Uri.joinPath(
+      workspace.uri,
+      ".vscode",
+      webpackConfigFileName
+    );
+
+    try {
+      await vscode.workspace.fs.stat(webpackConfigFileUri);
+    } catch {
+      return;
+    }
+
+    // Only support CommonJS
+    delete require.cache[require.resolve(webpackConfigFileUri.fsPath)];
+    const webpackConfigFn = require(webpackConfigFileUri.fsPath);
+
+    return webpackConfigFn;
   }
 }

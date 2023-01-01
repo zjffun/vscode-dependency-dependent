@@ -1,10 +1,11 @@
 import * as vscode from "vscode";
-import { DepService } from "./DepService";
 // nlsConfig must before other imports
 import "./nlsConfig";
 
 // Add a newline, wait for [Automatically create sort groups based on newlines in organize imports](https://github.com/microsoft/TypeScript/pull/48330)
 
+import configWebpack from "./commands/configWebpack";
+import { DepService } from "./DepService";
 import { setContext } from "./share";
 import DepExplorerView from "./views/DepExplorerView";
 
@@ -39,6 +40,15 @@ export function activate(context: vscode.ExtensionContext) {
             query: "dependencyDependent.entryPoints",
           }
         );
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "dependency-dependent.configWebpack",
+      async () => {
+        return configWebpack();
       }
     )
   );

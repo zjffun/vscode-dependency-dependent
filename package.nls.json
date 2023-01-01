@@ -1,5 +1,6 @@
 {
   "extension.DepExplorerView.name": "Dependencies & Dependents",
   "extension.refresh.title": "Refresh",
-  "extension.configEntryPoints.title": "Config Entry Points"
+  "extension.configEntryPoints.title": "Config Entry Points",
+  "extension.configWebpack.title": "Config webpack"
 }

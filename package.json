@@ -84,6 +84,14 @@
           "command": "dependency-dependent.refresh",
           "when": "view == dependency-dependent-DepExplorerView",
           "group": "navigation@10"
+        },
+        {
+          "command": "dependency-dependent.configEntryPoints",
+          "when": "view == dependency-dependent-DepExplorerView"
+        },
+        {
+          "command": "dependency-dependent.configWebpack",
+          "when": "view == dependency-dependent-DepExplorerView"
         }
       ]
     },
@@ -97,6 +105,11 @@
       {
         "command": "dependency-dependent.configEntryPoints",
         "title": "%extension.configEntryPoints.title%",
+        "category": "Dependency & Dependent"
+      },
+      {
+        "command": "dependency-dependent.configWebpack",
+        "title": "%extension.configWebpack.title%",
         "category": "Dependency & Dependent"
       }
     ]
