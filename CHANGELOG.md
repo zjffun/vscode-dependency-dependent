@@ -7,7 +7,7 @@
 
 - Add images and settings description in document.
 
-# v0.0.3
+# v0.0.4
 
 - Fix bug build ana-loader.
 
