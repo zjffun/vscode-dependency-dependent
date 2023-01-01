@@ -1,3 +1,7 @@
+# v0.1.3
+
+- Add type for default webpack config.
+
 # v0.1.2
 
 - Fix webpack config.
