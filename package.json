@@ -151,7 +151,7 @@
   },
   "dependencies": {
     "vscode-nls": "^5.0.1",
-    "webpack-dep": "^0.2.1"
+    "webpack-dep": "^0.3.0"
   },
   "icon": "images/icon.png"
 }
