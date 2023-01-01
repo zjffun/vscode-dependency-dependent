@@ -124,6 +124,6 @@ export default class DepExplorerView
       vscode.TreeItemCollapsibleState.Expanded;
     dependentTreeItem.depUri = vscode.window.activeTextEditor?.document?.uri;
 
-    return [dependencyTreeItem, dependentTreeItem];
+    return [dependentTreeItem, dependencyTreeItem];
   }
 }
