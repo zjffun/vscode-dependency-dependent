@@ -95,7 +95,7 @@ export class DepService {
             }
           }
 
-          return config;
+          return _config;
         },
         errorCb(errors: any[]) {
           log.appendLine(
