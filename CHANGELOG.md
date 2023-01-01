@@ -1,3 +1,7 @@
+# v0.1.2
+
+- Fix webpack config.
+
 # v0.1.1
 
 - Add features support config webpack.
