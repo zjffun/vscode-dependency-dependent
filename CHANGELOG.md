@@ -1,3 +1,8 @@
+# v0.1.1
+
+- Add features support config webpack.
+- Change the order of dependency and dependent.
+
 # v0.1.0
 
 - Add images and settings description in document.
