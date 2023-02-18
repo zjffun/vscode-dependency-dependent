@@ -1,3 +1,7 @@
+# v0.2.0
+
+- Add features analyzing dependencies of HTML and `url()`.
+
 # v0.1.3
 
 - Add type for default webpack config.
