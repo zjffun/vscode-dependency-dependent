@@ -1,12 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import VueApp from './vue/App.vue';
-import Component from '@/components/Component.js';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import VueApp from "./vue/App.vue";
+import Component from "@/components/Component.js";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import "./index.css";
+import "./index.less";
+import "./index.scss";
+import "./index.sass";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <App />
@@ -18,4 +23,4 @@ root.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-console.log('VueApp', VueApp);
+console.log("VueApp", VueApp);
