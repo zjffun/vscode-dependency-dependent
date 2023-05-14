@@ -1,3 +1,7 @@
+# v0.2.1
+
+Update webpack-dep.
+
 # v0.2.0
 
 - Add features analyzing dependencies of HTML and `url()`.
