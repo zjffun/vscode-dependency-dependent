@@ -28,6 +28,19 @@
   resolved "https://registry.npmmirror.com/@babel/parser/-/parser-7.20.5.tgz#7f3c7335fe417665d929f34ae5dceae4c04015e8"
   integrity sha512-r27t/cy/m9uKLXQNWWebeCUHgnAZq0CpG1OwKRxzJMP1vpSU4bSIK2hq+/cp0bQxetkXx38n09rNu8jVkcK/zA==
 
+"@babel/parser@^7.21.8":
+  version "7.21.8"
+  resolved "https://registry.npmmirror.com/@babel/parser/-/parser-7.21.8.tgz#642af7d0333eab9c0ad70b14ac5e76dbde7bfdf8"
+  integrity sha512-6zavDGdzG3gUqAdWvlLFfk+36RilI+Pwyuuh7HItyeScCWP3k6i8vKclAQ0bM/0y/Kz/xiwvxhMv9MgTJP5gmA==
+
+"@dependents/detective-less@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.npmmirror.com/@dependents/detective-less/-/detective-less-4.1.0.tgz#4a979ee7a6a79eb33602862d6a1263e30f98002e"
+  integrity sha512-KrkT6qO5NxqNfy68sBl6CTSoJ4SNDIS5iQArkibhlbGU4LaDukZ3q2HIkh8aUKDio6o4itU4xDR7t82Y2eP1Bg==
+  dependencies:
+    gonzales-pe "^4.3.0"
+    node-source-walk "^6.0.1"
+
 "@esbuild/android-arm@0.15.17":
   version "0.15.17"
   resolved "https://registry.npmmirror.com/@esbuild/android-arm/-/android-arm-0.15.17.tgz#05162390ed2b0f2ae9647a809efb71fba14ddfe7"
@@ -529,19 +542,19 @@ ajv@^8.0.0, ajv@^8.0.1, ajv@^8.8.0:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-ana-loader@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.npmmirror.com/ana-loader/-/ana-loader-0.2.0.tgz#341737938fe4e9ae603e0829138ad92cb0ae9a4d"
-  integrity sha512-yUgvOlWIA4yOQ8pFgbA4jXp3ocZKkJSun0rLjQF15ld1F0NDESotrwIaBp3Mxbg/gxn5i3PFQHWsO4CCMEDxjw==
+ana-loader@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.npmmirror.com/ana-loader/-/ana-loader-0.2.1.tgz#45f67b27dc568218a2bf54e6fce791377867eed3"
+  integrity sha512-xUAcGAAMr5vZx1/D3KWOKIrip7ri/u1WW5hbgdtbbgxHh117Tr2g050C/wN2oRcW9sBmUv4JHOi1dpjzmWQ1Lw==
   dependencies:
+    "@dependents/detective-less" "^4.1.0"
     detective-amd "^4.0.1"
     detective-cjs "^4.0.0"
     detective-es6 "^3.0.0"
     detective-html "^0.0.2"
-    detective-less zjffun/node-detective-less#v1.0.1-feat-url
     detective-postcss "^6.1.0"
-    detective-sass zjffun/node-detective-sass#v4.0.1-feat-url
-    detective-scss zjffun/node-detective-scss#v3.0.0-feat-url
+    detective-sass "^5.0.3"
+    detective-scss "^4.0.3"
     detective-stylus "^2.0.1"
     detective-typescript "^9.0.0"
     loader-utils "^3.2.1"
@@ -768,11 +781,6 @@ azure-devops-node-api@^11.0.1:
   dependencies:
     tunnel "0.0.6"
     typed-rest-client "^1.8.4"
-
-babylon@^6.17.0:
-  version "6.18.0"
-  resolved "https://registry.npmmirror.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
-  integrity sha512-q/UEjfGJ2Cm3oKV71DJz9d25TPnq5rhBVL2Q4fA5wcC3jcrdn7+SssEybFIxwAvvP+YCsCYNKughoF33GxgycQ==
 
 bach@^1.0.0:
   version "1.2.0"
@@ -1307,7 +1315,7 @@ debug-fabulous@^1.0.0:
     memoizee "0.4.X"
     object-assign "4.X"
 
-debug@3.X, debug@^3.1.0:
+debug@3.X:
   version "3.2.7"
   resolved "https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz#72580b7e9145fb39b6676f9c5e5fb100b934179a"
   integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
@@ -1475,14 +1483,6 @@ detective-html@^0.0.2:
   dependencies:
     parse5 "^7.1.2"
 
-detective-less@zjffun/node-detective-less#v1.0.1-feat-url:
-  version "1.0.1"
-  resolved "https://codeload.github.com/zjffun/node-detective-less/tar.gz/bf80ece2c91e32428c28dd1f754fd3e820a43a00"
-  dependencies:
-    debug "^3.1.0"
-    gonzales-pe "^3.4.4"
-    node-source-walk "^3.2.0"
-
 detective-postcss@^6.1.0:
   version "6.1.0"
   resolved "https://registry.npmmirror.com/detective-postcss/-/detective-postcss-6.1.0.tgz#01ca6f83dbc3158540fb0e6a6c631f3998946e54"
@@ -1492,19 +1492,21 @@ detective-postcss@^6.1.0:
     postcss "^8.4.12"
     postcss-values-parser "^6.0.2"
 
-detective-sass@zjffun/node-detective-sass#v4.0.1-feat-url:
-  version "4.0.1"
-  resolved "https://codeload.github.com/zjffun/node-detective-sass/tar.gz/9db56472b79b1576c2e774831b45a83a0d70ec6a"
+detective-sass@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.npmmirror.com/detective-sass/-/detective-sass-5.0.3.tgz#63e54bc9b32f4bdbd9d5002308f9592a3d3a508f"
+  integrity sha512-YsYT2WuA8YIafp2RVF5CEfGhhyIVdPzlwQgxSjK+TUm3JoHP+Tcorbk3SfG0cNZ7D7+cYWa0ZBcvOaR0O8+LlA==
   dependencies:
     gonzales-pe "^4.3.0"
-    node-source-walk "^5.0.0"
+    node-source-walk "^6.0.1"
 
-detective-scss@zjffun/node-detective-scss#v3.0.0-feat-url:
-  version "3.0.0"
-  resolved "https://codeload.github.com/zjffun/node-detective-scss/tar.gz/56a8d3d621e1dc47d129e1127e56b32a16e19615"
+detective-scss@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.npmmirror.com/detective-scss/-/detective-scss-4.0.3.tgz#79758baa0158f72bfc4481eb7e21cc3b5f1ea6eb"
+  integrity sha512-VYI6cHcD0fLokwqqPFFtDQhhSnlFWvU614J42eY6G0s8c+MBhi9QAWycLwIOGxlmD8I/XvGSOUV1kIDhJ70ZPg==
   dependencies:
     gonzales-pe "^4.3.0"
-    node-source-walk "^5.0.0"
+    node-source-walk "^6.0.1"
 
 detective-stylus@^2.0.1:
   version "2.0.1"
@@ -2456,13 +2458,6 @@ glogg@^1.0.0:
   dependencies:
     sparkles "^1.0.0"
 
-gonzales-pe@^3.4.4:
-  version "3.4.7"
-  resolved "https://registry.npmmirror.com/gonzales-pe/-/gonzales-pe-3.4.7.tgz#17c7be67ad6caff6277a3e387ac736e983d280ec"
-  integrity sha512-Ne+fRUiNEehz6wYltvzWSBfQNXfu6KAkevQnzk4SOoQIT1JTQRNjx/CthCT83u3ntZROEE5ObN6LSaOcDcYlig==
-  dependencies:
-    minimist "1.1.x"
-
 gonzales-pe@^4.3.0:
   version "4.3.0"
   resolved "https://registry.npmmirror.com/gonzales-pe/-/gonzales-pe-4.3.0.tgz#fe9dec5f3c557eead09ff868c65826be54d067b3"
@@ -3345,11 +3340,6 @@ minimatch@^3.0.3, minimatch@^3.0.4, minimatch@^3.1.1:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@1.1.x:
-  version "1.1.3"
-  resolved "https://registry.npmmirror.com/minimist/-/minimist-1.1.3.tgz#3bedfd91a92d39016fcfaa1c681e8faa1a1efda8"
-  integrity sha512-2RbeLaM/Hbo9vJ1+iRrxzfDnX9108qb2m923U+s+Ot2eMey0IYGdSjzHmvtg2XsxoCuMnzOMw7qc573RvnLgwg==
-
 minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6:
   version "1.2.7"
   resolved "https://registry.npmmirror.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
@@ -3500,19 +3490,19 @@ node-releases@^2.0.6:
   resolved "https://registry.npmmirror.com/node-releases/-/node-releases-2.0.6.tgz#8a7088c63a55e493845683ebf3c828d8c51c5503"
   integrity sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==
 
-node-source-walk@^3.2.0:
-  version "3.3.0"
-  resolved "https://registry.npmmirror.com/node-source-walk/-/node-source-walk-3.3.0.tgz#ad18e35bfdb3d0b6f7e0e4aff1e78f846a3b8873"
-  integrity sha512-Mh6WG6jY2SaE9cqDYOrCYsY2ZO1eDqSg17anwRTxlCwyMdOH+wSOAq8Udc68brWP5oQ5pUW7ecQcGBMFof74jA==
-  dependencies:
-    babylon "^6.17.0"
-
 node-source-walk@^5.0.0:
   version "5.0.0"
   resolved "https://registry.npmmirror.com/node-source-walk/-/node-source-walk-5.0.0.tgz#7cf93a0d12408081531fc440a00d7019eb3d5665"
   integrity sha512-58APXoMXpmmU+oVBJFajhTCoD8d/OGtngnVAWzIo2A8yn0IXwBzvIVIsTzoie/SrA37u+1hnpNz2HMWx/VIqlw==
   dependencies:
     "@babel/parser" "^7.0.0"
+
+node-source-walk@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmmirror.com/node-source-walk/-/node-source-walk-6.0.1.tgz#08ddbcdbf524c659e59412579a3cd4b3ef8d2d86"
+  integrity sha512-QUlkJYzrNewUCp4c7CCPN8Mh8c+pwNs23JsQfHKUwIkCxYa6c0AFLuUJIZxU6BdnarfytPSGKm1YMAz06hj9cw==
+  dependencies:
+    "@babel/parser" "^7.21.8"
 
 normalize-package-data@^2.3.2:
   version "2.5.0"
@@ -5164,12 +5154,12 @@ watchpack@^2.4.0:
     glob-to-regexp "^0.4.1"
     graceful-fs "^4.1.2"
 
-webpack-dep@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npmmirror.com/webpack-dep/-/webpack-dep-0.4.0.tgz#25c543d0077f5a0c3935fde8fff27f283c2598e4"
-  integrity sha512-Fft8KytK2Z5CIsILzptd3OeTsZcoA6thVx13soChP0YYgeNSvHNxhdScfEqIqXVwlvBeO0uVbe1iPJ5FKb1kcQ==
+webpack-dep@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.npmmirror.com/webpack-dep/-/webpack-dep-0.4.1.tgz#1a84f7ccd06c9aaffa26b481fc77c8e0f49dfd63"
+  integrity sha512-ntWPzftUmIx6xYGplIYbYoztw8cxb2QwLh1tqWZC4nnUprNlLgPNYn60KtKCfpWhH3smO4MnY1EADuIDKqor2w==
   dependencies:
-    ana-loader "^0.2.0"
+    ana-loader "^0.2.1"
     commander "^9.4.1"
     webpack "^5.64.4"
 
