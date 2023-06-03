@@ -1,3 +1,7 @@
+# v0.2.2
+
+Fix Windows path bug.
+
 # v0.2.1
 
 Update webpack-dep.
