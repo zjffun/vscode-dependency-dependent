@@ -1,3 +1,7 @@
+# v0.2.3
+
+Fix get uri from file.
+
 # v0.2.2
 
 Fix Windows path bug.
