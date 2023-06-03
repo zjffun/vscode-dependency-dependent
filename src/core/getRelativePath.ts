@@ -6,9 +6,9 @@ export default function (fromUri?: vscode.Uri, toUri?: vscode.Uri) {
     return "";
   }
 
-  const relativePath = vscode.Uri.file(
-    path.relative(path.dirname(fromUri.path), toUri.path)
-  ).path;
+  const relativePath = path
+    .relative(path.dirname(fromUri.path), toUri.path)
+    .replaceAll(path.sep, "/");
 
   if (!relativePath.startsWith(".")) {
     return `./${relativePath}`;
