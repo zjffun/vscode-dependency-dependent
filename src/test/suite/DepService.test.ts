@@ -39,7 +39,6 @@ suite("DepService", () => {
 
     const dependencies = await depService.getDependencies(uri);
 
-    // TODO: fix when windows
     assert.equal(dependencies.length, 3);
   });
 
@@ -51,7 +50,6 @@ suite("DepService", () => {
 
     const dependents = await depService.getDependents(uri);
 
-    // TODO: fix when windows
     assert.equal(dependents.length, 1);
   });
 });

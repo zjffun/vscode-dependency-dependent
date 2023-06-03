@@ -48,7 +48,7 @@
             "src/main.jsx",
             "src/main.vue"
           ],
-          "scope": "window",
+          "scope": "resource",
           "description": "Entry points to find dependencies and dependents."
         },
         "dependencyDependent.excludes": {

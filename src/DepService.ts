@@ -55,8 +55,9 @@ export class DepService {
     forceUpdate?: boolean
   ): Promise<DepMap> {
     const path = workspace?.uri?.path;
+    const fsPath = workspace?.uri?.fsPath;
 
-    if (!path) {
+    if (!path || !fsPath) {
       return new Map();
     }
 
@@ -75,7 +76,7 @@ export class DepService {
 
     if (!dependencyMap || forceUpdate === true) {
       const options = {
-        appDirectory: path,
+        appDirectory: fsPath,
         excludes: excludesConfig,
         webpackConfig(config: any) {
           let _config = config;
