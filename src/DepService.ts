@@ -21,8 +21,8 @@ export class DepService {
   constructor() {}
 
   async getDependencies(uri?: vscode.Uri): Promise<string[]> {
-    const path = uri?.path;
-    if (!path) {
+    const fsPath = uri?.fsPath;
+    if (!fsPath) {
       return [];
     }
 
@@ -30,14 +30,14 @@ export class DepService {
       vscode.workspace.getWorkspaceFolder(uri)
     );
 
-    const dependencies = [...(dependencyMap.get(path) || [])];
+    const dependencies = [...(dependencyMap.get(fsPath) || [])];
 
     return dependencies;
   }
 
   async getDependents(uri?: vscode.Uri): Promise<string[]> {
-    const path = uri?.path;
-    if (!path) {
+    const fsPath = uri?.fsPath;
+    if (!fsPath) {
       return [];
     }
 
@@ -45,7 +45,7 @@ export class DepService {
       vscode.workspace.getWorkspaceFolder(uri)
     );
 
-    const dependents = [...(dependentMap.get(path) || [])];
+    const dependents = [...(dependentMap.get(fsPath) || [])];
 
     return dependents;
   }
@@ -54,10 +54,9 @@ export class DepService {
     workspace?: vscode.WorkspaceFolder,
     forceUpdate?: boolean
   ): Promise<DepMap> {
-    const path = workspace?.uri?.path;
     const fsPath = workspace?.uri?.fsPath;
 
-    if (!path || !fsPath) {
+    if (!fsPath) {
       return new Map();
     }
 
@@ -72,7 +71,7 @@ export class DepService {
       log.appendLine(`Error get webpack config: ${error}`);
     }
 
-    let dependencyMap = this.workspacePathDependencyMapMap.get(path);
+    let dependencyMap = this.workspacePathDependencyMapMap.get(fsPath);
 
     if (!dependencyMap || forceUpdate === true) {
       const options = {
@@ -116,10 +115,10 @@ export class DepService {
       for (const [key, rawDependencies] of rawDependencyMap) {
         const dependencies = new Set<string>();
         for (const rawDependency of rawDependencies) {
-          dependencies.add(vscode.Uri.file(rawDependency).path);
+          dependencies.add(vscode.Uri.file(rawDependency).fsPath);
         }
 
-        dependencyMap.set(vscode.Uri.file(key).path, dependencies);
+        dependencyMap.set(vscode.Uri.file(key).fsPath, dependencies);
       }
 
       log.appendLine(
@@ -128,7 +127,7 @@ export class DepService {
         })}`
       );
 
-      this.workspacePathDependencyMapMap.set(path, dependencyMap!);
+      this.workspacePathDependencyMapMap.set(fsPath, dependencyMap!);
     }
 
     return dependencyMap!;
@@ -138,13 +137,13 @@ export class DepService {
     workspace?: vscode.WorkspaceFolder,
     forceUpdate?: boolean
   ): Promise<DepMap> {
-    const path = workspace?.uri?.path;
+    const fsPath = workspace?.uri?.fsPath;
 
-    if (!path) {
+    if (!fsPath) {
       return new Map();
     }
 
-    let dependentMap = this.workspacePathDependentMapMap.get(path);
+    let dependentMap = this.workspacePathDependentMapMap.get(fsPath);
 
     if (!dependentMap || forceUpdate === true) {
       const dependencyMap = await this.getDependencyMapByWorkspace(workspace);
@@ -161,7 +160,7 @@ export class DepService {
         }
       }
 
-      this.workspacePathDependentMapMap.set(path, dependentMap);
+      this.workspacePathDependentMapMap.set(fsPath, dependentMap);
     }
 
     return dependentMap;
