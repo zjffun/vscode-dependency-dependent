@@ -7,3 +7,7 @@ export const testWorkspaceRoot = <vscode.Uri>(
 export async function closeAllEditors() {
   return vscode.commands.executeCommand("workbench.action.closeAllEditors");
 }
+
+export async function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

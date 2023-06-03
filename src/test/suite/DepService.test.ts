@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
 import { DepService } from "../../DepService";
-import { testWorkspaceRoot } from "../util";
+import { sleep, testWorkspaceRoot } from "../util";
 
 suite("DepService", () => {
   setup(async () => {});
@@ -23,6 +23,8 @@ suite("DepService", () => {
 
     await vscode.commands.executeCommand("vscode.open", uri);
 
+    await sleep(1000);
+
     const depService = new DepService();
     const dependentMap = await depService.getDependentMapByWorkspace(
       vscode.workspace.getWorkspaceFolder(testWorkspaceRoot)
@@ -37,6 +39,8 @@ suite("DepService", () => {
 
     await vscode.commands.executeCommand("vscode.open", uri);
 
+    await sleep(1000);
+
     const dependencies = await depService.getDependencies(uri);
 
     assert.equal(dependencies.length, 3);
@@ -47,6 +51,8 @@ suite("DepService", () => {
     const uri = vscode.Uri.joinPath(testWorkspaceRoot, "src", "App.js");
 
     await vscode.commands.executeCommand("vscode.open", uri);
+
+    await sleep(1000);
 
     const dependents = await depService.getDependents(uri);
 
