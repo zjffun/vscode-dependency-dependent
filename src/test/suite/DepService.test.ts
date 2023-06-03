@@ -30,6 +30,25 @@ suite("DepService", () => {
       vscode.workspace.getWorkspaceFolder(testWorkspaceRoot)
     );
 
+    console.log(
+      "DepService.test.ts:33",
+      uri.path,
+
+      JSON.stringify(
+        dependentMap,
+        (key, val) => {
+          if (val instanceof Set) {
+            return Array.from(val);
+          }
+          if (val instanceof Map) {
+            return Array.from(val.entries());
+          }
+          return val;
+        },
+        2
+      )
+    );
+
     assert.equal(dependentMap.get(uri.path)?.size, 1);
   });
 
