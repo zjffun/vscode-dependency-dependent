@@ -64,7 +64,7 @@ export default class DepExplorerView
       const items: DepTreeItem[] = [];
 
       for (const dependency of dependencies) {
-        const uri = vscode.Uri.parse(dependency);
+        const uri = vscode.Uri.file(dependency);
         const item = new DepTreeItem(uri);
         item.depUri = uri;
         item.command = {
@@ -86,7 +86,7 @@ export default class DepExplorerView
       const items: DepTreeItem[] = [];
 
       for (const dependent of dependents) {
-        const uri = vscode.Uri.parse(dependent);
+        const uri = vscode.Uri.file(dependent);
         const item = new DepTreeItem(uri);
         item.depUri = uri;
         item.command = {
