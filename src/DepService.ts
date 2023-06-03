@@ -96,6 +96,7 @@ export class DepService {
             }
           }
 
+          console.log("DepService.ts:99", _config);
           return _config;
         },
         errorCb(errors: any[]) {
@@ -112,6 +113,7 @@ export class DepService {
       dependencyMap = new Map();
 
       const rawDependencyMap = await webpackDep(options);
+      console.log("DepService.ts:116", rawDependencyMap);
 
       for (const [key, rawDependencies] of rawDependencyMap) {
         const dependencies = new Set<string>();
@@ -139,6 +141,7 @@ export class DepService {
     forceUpdate?: boolean
   ): Promise<DepMap> {
     const path = workspace?.uri?.path;
+    console.log("DepService.ts:142", path);
 
     if (!path) {
       return new Map();
@@ -151,6 +154,7 @@ export class DepService {
       dependentMap = new Map();
 
       for (const [dependent, dependencies] of dependencyMap) {
+        console.log("DepService.ts:157", dependent);
         for (const dependency of dependencies) {
           let dependents = dependentMap.get(dependency);
           if (!dependents) {
