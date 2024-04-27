@@ -2,13 +2,19 @@
 
 English | [简体中文](./README.zh-CN.md)
 
-**Note1: Some dependencies may be imported according special configurations (for example: [webpack alias](https://webpack.js.org/configuration/resolve/#resolvealias)), these dependencies can't be collected by default, you can [config webpack](#config-webpack) to collect them.**
-
-**Note 2: This extension will not automatically update the dependency data, you need to manually click the refresh button to update the dependency data.**
-
-Show dependencies and dependents (references).
+Explore dependencies and dependents (references) in tree view.
 
 ![view](./images/view.webp)
+
+## Features
+
+### Dependencies & dependents Tree
+
+Analysis dependencies and dependents, and display through the tree view.
+
+### Lock & Unlock Tree
+
+If we locked, the tree will not change when open another files.
 
 ## Settings
 
@@ -19,9 +25,7 @@ Show dependencies and dependents (references).
 `dependencyDependent.entryPoints` config entry points to find dependencies and dependents. Default:
 
 ```json
-[
-  "src/**/*.{ts,js,tsx,jsx,vue}"  
-]
+["src/**/*.{ts,js,tsx,jsx,vue}", "app/**/*.{ts,js,tsx,jsx,vue}"]
 ```
 
 By default, all `ts,js,tsx,jsx,vue` files in `src` will as entry points. If the entry points of your project are not in the default setting, you can add them.
@@ -45,6 +49,12 @@ If you need to excludes other files, you can add them. If you want to find the d
 ### 2. Modify the webpack configuration for this extension
 
 You can modify any [webpack configuration](https://webpack.js.org/configuration/) in `.vscode/dependency-dependent-webpack-config.js`.
+
+## Note
+
+1.  Some dependencies may be imported according **special configurations** (for example: [webpack alias](https://webpack.js.org/configuration/resolve/#resolvealias)), these dependencies **can't be collected by default**, you can [config webpack](#config-webpack) to collect them.
+
+2.  Because update the dependency data may take lots of time. This extension **will not automatically update** the dependency data, you need to manually click the refresh button to update the dependency data.
 
 ## Install via CLI
 

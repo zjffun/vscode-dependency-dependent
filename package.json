@@ -41,7 +41,8 @@
             "type": "string"
           },
           "default": [
-            "src/**/*.{ts,js,tsx,jsx,vue}"
+            "src/**/*.{ts,js,tsx,jsx,vue}",
+            "app/**/*.{ts,js,tsx,jsx,vue}"
           ],
           "scope": "resource",
           "description": "Entry points to find dependencies and dependents."
