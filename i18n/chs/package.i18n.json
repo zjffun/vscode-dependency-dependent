@@ -2,5 +2,7 @@
   "extension.DepExplorerView.name": "依赖 & 使用者",
   "extension.refresh.title": "刷新",
   "extension.configEntryPoints.title": "配置入口文件",
-  "extension.configWebpack.title": "配置 webpack"
+  "extension.configWebpack.title": "配置 webpack",
+  "extension.lock.title": "锁定树",
+  "extension.unlock.title": "解除锁定树"
 }
