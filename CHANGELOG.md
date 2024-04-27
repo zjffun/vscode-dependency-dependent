@@ -1,3 +1,7 @@
+# v0.3.1
+
+Fix glob package.
+
 # v0.3.0
 
 - Support glob entry points.
