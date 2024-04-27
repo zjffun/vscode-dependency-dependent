@@ -1,3 +1,10 @@
+# v0.3.0
+
+- Support glob entry points.
+- Add Lock & Unlock tree function.
+- Add Dependencies and dependents tree.
+- Default support more entry points.
+
 # v0.2.3
 
 Fix get uri from file.
