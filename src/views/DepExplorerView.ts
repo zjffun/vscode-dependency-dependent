@@ -3,6 +3,9 @@ import * as vscode from "vscode";
 import getRelativePath from "../core/getRelativePath";
 import { DepService } from "../DepService";
 import { log } from "../extension";
+import { getLocked } from "../core/context";
+
+const rootViewItemId = "dependency-dependent-DepExplorerView-root-viewItem";
 
 let depExplorerView: DepExplorerView;
 
@@ -29,6 +32,8 @@ export default class DepExplorerView
   protected context: vscode.ExtensionContext;
 
   protected treeView: vscode.TreeView<DepTreeItem>;
+
+  protected currentRootUri?: vscode.Uri;
 
   protected _onDidChangeTreeData: vscode.EventEmitter<any> =
     new vscode.EventEmitter<any>();
@@ -134,10 +139,19 @@ export default class DepExplorerView
 
   protected async getTreeRoot() {
     try {
-      const uri = vscode.window.activeTextEditor?.document?.uri;
+      let uri: vscode.Uri | undefined;
 
-      if (!uri) {
-        throw new Error("Can't get uri of activeTextEditor.");
+      const locked = getLocked();
+      if (locked === true && this.currentRootUri) {
+        uri = this.currentRootUri;
+      } else {
+        uri = vscode.window.activeTextEditor?.document?.uri;
+
+        if (!uri) {
+          throw new Error("Can't get uri of activeTextEditor.");
+        }
+
+        this.currentRootUri = uri;
       }
 
       const dependencies = await DepService.singleton.getDependencies(uri);
@@ -163,6 +177,7 @@ export default class DepExplorerView
       rootTreeItem.depType = DepTypeEnum.Root;
       rootTreeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
       rootTreeItem.depUri = uri;
+      rootTreeItem.contextValue = rootViewItemId;
 
       return [rootTreeItem];
     } catch (e: any) {

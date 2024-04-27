@@ -4,8 +4,9 @@ import "./nlsConfig";
 
 // Add a newline, wait for [Automatically create sort groups based on newlines in organize imports](https://github.com/microsoft/TypeScript/pull/48330)
 
-import configWebpack from "./commands/configWebpack";
 import { DepService } from "./DepService";
+import configWebpack from "./commands/configWebpack";
+import { getLocked, setLocked } from "./core/context";
 import { setContext } from "./share";
 import DepExplorerView from "./views/DepExplorerView";
 
@@ -16,7 +17,12 @@ export function activate(context: vscode.ExtensionContext) {
 
   new DepExplorerView(context);
 
-  vscode.window.onDidChangeActiveTextEditor(() => {
+  vscode.window.onDidChangeActiveTextEditor(async () => {
+    const locked = getLocked();
+    if (locked === true) {
+      return;
+    }
+
     DepExplorerView.singleton.refresh();
   });
 
@@ -51,6 +57,18 @@ export function activate(context: vscode.ExtensionContext) {
         return configWebpack();
       }
     )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("dependency-dependent.lock", async () => {
+      return setLocked(true);
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("dependency-dependent.unlock", async () => {
+      return setLocked(false);
+    })
   );
 }
 

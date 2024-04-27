@@ -63,7 +63,8 @@
       "explorer": [
         {
           "id": "dependency-dependent-DepExplorerView",
-          "name": "%extension.DepExplorerView.name%"
+          "name": "%extension.DepExplorerView.name%",
+          "icon": "$(type-hierarchy)"
         }
       ]
     },
@@ -81,12 +82,32 @@
           "group": "navigation@10"
         },
         {
+          "command": "dependency-dependent.lock",
+          "when": "!dependency-dependent.lock && view == dependency-dependent-DepExplorerView",
+          "group": "navigation@11"
+        },
+        {
+          "command": "dependency-dependent.unlock",
+          "when": "dependency-dependent.lock && view == dependency-dependent-DepExplorerView",
+          "group": "navigation@11"
+        },
+        {
           "command": "dependency-dependent.configEntryPoints",
           "when": "view == dependency-dependent-DepExplorerView"
         },
         {
           "command": "dependency-dependent.configWebpack",
           "when": "view == dependency-dependent-DepExplorerView"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "dependency-dependent.lock",
+          "when": "!dependency-dependent.lock"
+        },
+        {
+          "command": "dependency-dependent.unlock",
+          "when": "dependency-dependent.lock"
         }
       ]
     },
@@ -105,6 +126,18 @@
       {
         "command": "dependency-dependent.configWebpack",
         "title": "%extension.configWebpack.title%",
+        "category": "Dependency & Dependent"
+      },
+      {
+        "command": "dependency-dependent.lock",
+        "title": "%extension.lock.title%",
+        "icon": "$(unlock)",
+        "category": "Dependency & Dependent"
+      },
+      {
+        "command": "dependency-dependent.unlock",
+        "title": "%extension.unlock.title%",
+        "icon": "$(lock)",
         "category": "Dependency & Dependent"
       }
     ]

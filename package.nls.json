@@ -2,5 +2,7 @@
   "extension.DepExplorerView.name": "Dependencies & Dependents",
   "extension.refresh.title": "Refresh",
   "extension.configEntryPoints.title": "Config Entry Points",
-  "extension.configWebpack.title": "Config webpack"
+  "extension.configWebpack.title": "Config webpack",
+  "extension.lock.title": "Lock Tree",
+  "extension.unlock.title": "Unlock Tree"
 }
