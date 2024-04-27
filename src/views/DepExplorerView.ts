@@ -78,12 +78,21 @@ export default class DepExplorerView
       for (const dependency of dependencies) {
         const uri = vscode.Uri.file(dependency);
         const item = new DepTreeItem(uri);
+        const itemDependencies = await DepService.singleton.getDependencies(
+          uri
+        );
+
         item.depUri = uri;
         item.command = {
           title: "open",
           command: "vscode.open",
           arguments: [item.depUri],
         };
+
+        if (itemDependencies.length) {
+          item.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+        }
+
         item.description = getRelativePath(element.depUri, item.depUri);
         item.depType = DepTypeEnum.Dependency;
 
@@ -100,12 +109,19 @@ export default class DepExplorerView
       for (const dependent of dependents) {
         const uri = vscode.Uri.file(dependent);
         const item = new DepTreeItem(uri);
+        const itemDependents = await DepService.singleton.getDependents(uri);
+
         item.depUri = uri;
         item.command = {
           title: "open",
           command: "vscode.open",
           arguments: [item.depUri],
         };
+
+        if (itemDependents.length) {
+          item.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+        }
+
         item.description = getRelativePath(element.depUri, item.depUri);
         item.depType = DepTypeEnum.Dependent;
 
