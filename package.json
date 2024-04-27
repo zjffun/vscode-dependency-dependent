@@ -151,8 +151,10 @@
     "test": "node ./out/test/runTest.js",
     "lint": "eslint src --ext ts",
     "deploy": "vsce publish --yarn",
-    "fix:pack": "esbuild ./node_modules/ana-loader/dist/index.js --bundle --outfile=./node_modules/ana-loader/dist/index.js --allow-overwrite --external:vue --external:vue-template-compiler --format=cjs --platform=node",
-    "_vscode:pack": "yarn run fix:pack && vsce package",
+    "fix:pack": "yarn run fix:pack:ana-loader && yarn run fix:pack:glob",
+    "fix:pack:ana-loader": "esbuild ./node_modules/ana-loader/dist/index.js --bundle --outfile=./node_modules/ana-loader/dist/index.js --allow-overwrite --external:vue --external:vue-template-compiler --format=cjs --platform=node",
+    "fix:pack:glob": "esbuild ./node_modules/glob/dist/commonjs/index.js --bundle --outfile=./node_modules/glob/dist/commonjs/index.js --allow-overwrite --format=cjs --platform=node",
+    "_vscode:pack": "vsce package",
     "_vscode:install": "ls dependency-dependent-*.vsix | xargs code --install-extension",
     "_vscode:uninstall": "code --uninstall-extension zjffun.dependency-dependent"
   },
@@ -163,6 +165,8 @@
     "@types/vscode": "^1.59.0",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
+    "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^2.26.0",
     "del": "^6.0.0",
     "esbuild": "^0.15.17",
     "eslint": "^7.27.0",
@@ -171,9 +175,7 @@
     "gulp-typescript": "^6.0.0-alpha.1",
     "mocha": "^8.4.0",
     "typescript": "^4.4.4",
-    "vsce": "^1.103.1",
     "vscode-nls-dev": "^4.0.0",
-    "vscode-test": "^1.5.2",
     "webpack": "^5.75.0"
   },
   "dependencies": {
