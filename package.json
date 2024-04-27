@@ -37,16 +37,7 @@
             "type": "string"
           },
           "default": [
-            "src/index.ts",
-            "src/index.js",
-            "src/index.tsx",
-            "src/index.jsx",
-            "src/index.vue",
-            "src/main.ts",
-            "src/main.js",
-            "src/main.tsx",
-            "src/main.jsx",
-            "src/main.vue"
+            "src/**/*.{ts,js,tsx,jsx,vue}"
           ],
           "scope": "resource",
           "description": "Entry points to find dependencies and dependents."
@@ -137,7 +128,6 @@
     "del": "^6.0.0",
     "esbuild": "^0.15.17",
     "eslint": "^7.27.0",
-    "glob": "^7.1.7",
     "gulp": "^4.0.2",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
@@ -149,6 +139,7 @@
     "webpack": "^5.75.0"
   },
   "dependencies": {
+    "glob": "^10.3.12",
     "vscode-nls": "^5.0.1",
     "webpack-dep": "^0.4.1"
   },

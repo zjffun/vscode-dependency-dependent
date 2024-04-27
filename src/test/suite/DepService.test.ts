@@ -50,6 +50,6 @@ suite("DepService", () => {
 
     const dependents = await depService.getDependents(uri);
 
-    assert.equal(dependents.length, 1);
+    assert.equal(dependents.length, 2);
   });
 });

@@ -1,5 +1,5 @@
-import * as fs from "fs";
 import * as vscode from "vscode";
+import { globSync } from "glob";
 import webpackDep from "webpack-dep";
 import { DepMap } from ".";
 import { log } from "./extension";
@@ -189,21 +189,24 @@ export class DepService {
     }
 
     const workspace = vscode.workspace.getWorkspaceFolder(uri);
-    if (!workspace?.uri) {
-      log.appendLine("No `workspace.uri` found.");
+    const cwd = workspace?.uri?.fsPath;
+    if (!cwd) {
+      log.appendLine("No cwd (`workspace.uri.fsPath`) found.");
       return [];
     }
 
     const config = vscode.workspace.getConfiguration("dependencyDependent");
     const entryConfig = config.get<string[]>("entryPoints") || [];
 
-    const result = [];
+    let result: string[] = [];
 
     for (const entry of entryConfig) {
-      const fsPath = vscode.Uri.joinPath(workspace.uri, entry).fsPath;
-      if (fs.existsSync(fsPath)) {
-        result.push(fsPath);
-      }
+      const found = globSync(entry, {
+        cwd,
+        absolute: true
+      });
+
+      result = [...found, ...result];
     }
 
     if (!result.length) {
