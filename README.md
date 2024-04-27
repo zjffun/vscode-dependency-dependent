@@ -6,7 +6,7 @@ English | [简体中文](./README.zh-CN.md)
 
 **Note 2: This extension will not automatically update the dependency data, you need to manually click the refresh button to update the dependency data.**
 
-Show dependencies and dependents.
+Show dependencies and dependents (references).
 
 ![view](./images/view.webp)
 
@@ -20,20 +20,11 @@ Show dependencies and dependents.
 
 ```json
 [
-  "src/index.ts",
-  "src/index.js",
-  "src/index.tsx",
-  "src/index.jsx",
-  "src/index.vue",
-  "src/main.ts",
-  "src/main.js",
-  "src/main.tsx",
-  "src/main.jsx",
-  "src/main.vue"
+  "src/**/*.{ts,js,tsx,jsx,vue}"  
 ]
 ```
 
-If the entry points of your project is not in the default setting, you can add them.
+By default, all `ts,js,tsx,jsx,vue` files in `src` will as entry points. If the entry points of your project are not in the default setting, you can add them.
 
 ### Excludes
 

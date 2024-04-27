@@ -1,10 +1,14 @@
 {
   "name": "dependency-dependent",
   "displayName": "Dependency & Dependent",
-  "description": "Show dependencies and dependents.",
+  "description": "Show dependencies and dependents (references).",
   "keywords": [
-    "dependency",
-    "dependent"
+    "dependencies",
+    "dependents",
+    "references",
+    "dependency tree",
+    "dependent tree",
+    "reference tree"
   ],
   "version": "0.2.3",
   "publisher": "zjffun",
@@ -66,7 +70,7 @@
     "viewsWelcome": [
       {
         "view": "dependency-dependent-DepExplorerView",
-        "contents": "No entry points found [learn more](https://github.com/zjffun/vscode-dependency-dependent).\n[Config Entry Points](command:dependency-dependent.configEntryPoints)"
+        "contents": "No dependency or dependent found for this file [learn more](https://github.com/zjffun/vscode-dependency-dependent).\n[Config Entry Points](command:dependency-dependent.configEntryPoints)"
       }
     ],
     "menus": {
