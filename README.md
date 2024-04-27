@@ -28,7 +28,7 @@ If we locked, the tree will not change when open another files.
 ["src/**/*.{ts,js,tsx,jsx,vue}", "app/**/*.{ts,js,tsx,jsx,vue}"]
 ```
 
-By default, all `ts,js,tsx,jsx,vue` files in `src` will as entry points. If the entry points of your project are not in the default setting, you can add them.
+By default, all `ts,js,tsx,jsx,vue` files in `src` and `app` will as entry points. If the entry points of your project are not in the default setting, you can add them.
 
 ### Excludes
 
