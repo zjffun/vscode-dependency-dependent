@@ -70,7 +70,7 @@
     "viewsWelcome": [
       {
         "view": "dependency-dependent-DepExplorerView",
-        "contents": "No dependency or dependent found for this file [learn more](https://github.com/zjffun/vscode-dependency-dependent).\n[Config Entry Points](command:dependency-dependent.configEntryPoints)"
+        "contents": "Loading..."
       }
     ],
     "menus": {

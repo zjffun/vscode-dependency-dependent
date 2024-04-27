@@ -1,3 +1,4 @@
+import * as path from "node:path";
 import * as vscode from "vscode";
 import getRelativePath from "../core/getRelativePath";
 import { DepService } from "../DepService";
@@ -6,6 +7,7 @@ import { log } from "../extension";
 let depExplorerView: DepExplorerView;
 
 export enum DepTypeEnum {
+  Root = "Root",
   Dependency = "Dependency",
   Dependent = "Dependent",
 }
@@ -26,6 +28,8 @@ export default class DepExplorerView
 
   protected context: vscode.ExtensionContext;
 
+  protected treeView: vscode.TreeView<DepTreeItem>;
+
   protected _onDidChangeTreeData: vscode.EventEmitter<any> =
     new vscode.EventEmitter<any>();
   readonly onDidChangeTreeData: vscode.Event<any> =
@@ -36,7 +40,7 @@ export default class DepExplorerView
 
     this.context = context;
 
-    vscode.window.createTreeView(DepExplorerView.viewId, {
+    this.treeView = vscode.window.createTreeView(DepExplorerView.viewId, {
       treeDataProvider: this,
       showCollapseAll: true,
     });
@@ -53,7 +57,15 @@ export default class DepExplorerView
   public getChildren(
     element?: DepTreeItem
   ): DepTreeItem[] | null | Thenable<DepTreeItem[] | null> {
-    return element ? this.getTreeElement(element) : this.getTreeRoot();
+    if (!element) {
+      return this.getTreeRoot();
+    }
+
+    if (element.depType === DepTypeEnum.Root) {
+      return this.getSubTreeItems(element);
+    }
+
+    return this.getTreeElement(element);
   }
 
   protected getTreeElement = async (element: DepTreeItem) => {
@@ -106,23 +118,57 @@ export default class DepExplorerView
 
   protected async getTreeRoot() {
     try {
-      await DepService.getEntryPoints();
+      const uri = vscode.window.activeTextEditor?.document?.uri;
+
+      if (!uri) {
+        throw new Error("Can't get uri of activeTextEditor.");
+      }
+
+      const dependencies = await DepService.singleton.getDependencies(uri);
+      const dependents = await DepService.singleton.getDependents(uri);
+
+      if (!dependencies.length && !dependents.length) {
+        throw new Error("No dependency or dependent found.");
+      }
+
+      const workspaceUri = vscode.workspace.getWorkspaceFolder(uri)?.uri;
+
+      this.treeView.message = undefined;
+      const rootTreeItem = new DepTreeItem(uri);
+
+      if (workspaceUri) {
+        const description = path
+          .relative(workspaceUri.fsPath, uri.fsPath)
+          .replaceAll(path.sep, "/");
+
+        rootTreeItem.description = description;
+      }
+
+      rootTreeItem.depType = DepTypeEnum.Root;
+      rootTreeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
+      rootTreeItem.depUri = uri;
+
+      return [rootTreeItem];
     } catch (e: any) {
+      this.treeView.message =
+        "No dependency or dependent found for this file.\n Please check config, see https://github.com/zjffun/vscode-dependency-dependent";
       log.appendLine(e.message);
       return null;
     }
+  }
 
+  protected async getSubTreeItems(element) {
     const dependencyTreeItem = new DepTreeItem("Dependencies");
     dependencyTreeItem.depType = DepTypeEnum.Dependency;
     dependencyTreeItem.collapsibleState =
       vscode.TreeItemCollapsibleState.Expanded;
-    dependencyTreeItem.depUri = vscode.window.activeTextEditor?.document?.uri;
+    dependencyTreeItem.depUri = element.depUri;
 
     const dependentTreeItem = new DepTreeItem("Dependents");
     dependentTreeItem.depType = DepTypeEnum.Dependent;
     dependentTreeItem.collapsibleState =
       vscode.TreeItemCollapsibleState.Expanded;
-    dependentTreeItem.depUri = vscode.window.activeTextEditor?.document?.uri;
+    dependentTreeItem.depUri = element.depUri;
 
     return [dependentTreeItem, dependencyTreeItem];
   }
