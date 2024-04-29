@@ -177,6 +177,11 @@ export default class DepExplorerView
       rootTreeItem.depType = DepTypeEnum.Root;
       rootTreeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
       rootTreeItem.depUri = uri;
+      rootTreeItem.command = {
+        title: "open",
+        command: "vscode.open",
+        arguments: [rootTreeItem.depUri],
+      };
       rootTreeItem.contextValue = rootViewItemId;
 
       return [rootTreeItem];

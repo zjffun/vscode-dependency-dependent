@@ -1,3 +1,7 @@
+# v0.3.2
+
+Add feature click to open the root file.
+
 # v0.3.1
 
 Fix glob package.
