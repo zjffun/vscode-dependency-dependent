@@ -79,7 +79,7 @@
       "view/title": [
         {
           "command": "dependency-dependent.refresh",
-          "when": "view == dependency-dependent-DepExplorerView",
+          "when": "!dependency-dependent.loading && view == dependency-dependent-DepExplorerView",
           "group": "navigation@10"
         },
         {
@@ -102,6 +102,10 @@
         }
       ],
       "commandPalette": [
+        {
+          "command": "dependency-dependent.refresh",
+          "when": "!dependency-dependent.loading"
+        },
         {
           "command": "dependency-dependent.lock",
           "when": "!dependency-dependent.lock"

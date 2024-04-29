@@ -6,7 +6,7 @@ import "./nlsConfig";
 
 import { DepService } from "./DepService";
 import configWebpack from "./commands/configWebpack";
-import { getLocked, setLocked } from "./core/context";
+import { getLoading, getLocked, setLoading, setLocked } from "./core/context";
 import { setContext } from "./share";
 import DepExplorerView from "./views/DepExplorerView";
 
@@ -30,8 +30,24 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "dependency-dependent.refresh",
       async () => {
-        await DepService.singleton.updateActiveWorkspaceDepMap();
-        DepExplorerView.singleton.refresh();
+        try {
+          if (getLoading() === true) {
+            return;
+          }
+
+          await setLoading(true);
+          DepExplorerView.singleton.setTreeViewMessage("");
+          await DepService.singleton.updateActiveWorkspaceDepMap();
+          await setLoading(false);
+          DepExplorerView.singleton.refresh();
+        } catch (error: any) {
+          DepExplorerView.singleton.setTreeViewMessage(
+            error?.message || "Unknown error"
+          );
+          throw error;
+        } finally {
+          await setLoading(false);
+        }
       }
     )
   );

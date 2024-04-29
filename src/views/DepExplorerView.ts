@@ -1,9 +1,9 @@
 import * as path from "node:path";
 import * as vscode from "vscode";
-import getRelativePath from "../core/getRelativePath";
 import { DepService } from "../DepService";
+import { getLoading, getLocked } from "../core/context";
+import getRelativePath from "../core/getRelativePath";
 import { log } from "../extension";
-import { getLocked } from "../core/context";
 
 const rootViewItemId = "dependency-dependent-DepExplorerView-root-viewItem";
 
@@ -51,8 +51,22 @@ export default class DepExplorerView
     });
   }
 
-  public refresh(): any {
+  public refresh() {
     this._onDidChangeTreeData.fire(null);
+  }
+
+  public setTreeViewMessage(msg: string) {
+    const messages: string[] = [];
+
+    if (getLoading() === true) {
+      messages.push("Loading...");
+    }
+
+    if (msg) {
+      messages.push(msg);
+    }
+
+    this.treeView.message = messages.join("\n");
   }
 
   public getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
@@ -163,7 +177,7 @@ export default class DepExplorerView
 
       const workspaceUri = vscode.workspace.getWorkspaceFolder(uri)?.uri;
 
-      this.treeView.message = undefined;
+      this.setTreeViewMessage("");
       const rootTreeItem = new DepTreeItem(uri);
 
       if (workspaceUri) {
@@ -186,8 +200,9 @@ export default class DepExplorerView
 
       return [rootTreeItem];
     } catch (e: any) {
-      this.treeView.message =
-        "No dependency or dependent found for this file.\n Please check config, see https://github.com/zjffun/vscode-dependency-dependent";
+      this.setTreeViewMessage(
+        "No dependency or dependent found for this file.\n Please check config, see https://github.com/zjffun/vscode-dependency-dependent"
+      );
       log.appendLine(e.message);
       return null;
     }
