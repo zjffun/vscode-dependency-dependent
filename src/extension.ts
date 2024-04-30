@@ -83,7 +83,9 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand("dependency-dependent.unlock", async () => {
-      return setLocked(false);
+      await setLocked(false);
+      DepExplorerView.singleton.refresh();
+      return;
     })
   );
 }
