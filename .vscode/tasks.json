@@ -28,7 +28,7 @@
         "background": {
           "activeOnStart": true,
           "beginsPattern": "Using gulpfile",
-          "endsPattern": "Finished 'addI18nTask'"
+          "endsPattern": "Finished 'nlsCompileTask'"
         }
       }
     }
