@@ -1,3 +1,8 @@
+# v0.3.3
+
+- Add feature refresh tree after unlock.
+- Add feature loading state.
+
 # v0.3.2
 
 Add feature click to open the root file.
