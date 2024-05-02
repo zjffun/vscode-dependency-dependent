@@ -5,7 +5,7 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "watch",
+      "script": "esbuild-watch",
       "isBackground": true,
       "presentation": {
         "reveal": "never"
@@ -15,7 +15,7 @@
         "isDefault": true
       },
       "problemMatcher": {
-        "owner": "typescript",
+        "owner": "esbuild",
         "fileLocation": "relative",
         "pattern": {
           "regexp": "^$",
@@ -27,8 +27,8 @@
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": "Using gulpfile",
-          "endsPattern": "Finished 'nlsCompileTask'"
+          "beginsPattern": "build finished, watching for changes...",
+          "endsPattern": "build finished, watching for changes..."
         }
       }
     }

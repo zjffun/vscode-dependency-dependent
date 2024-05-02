@@ -1,8 +1,6 @@
 .DS_Store
 stats.json
 
-// These files will be generated from the l10n folder
-/*nls.*.json
 /out
 dist
 node_modules
