@@ -29,7 +29,7 @@
   "activationEvents": [
     "onStartupFinished"
   ],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "l10n": "./l10n",
   "contributes": {
     "configuration": {
@@ -149,13 +149,12 @@
   },
   "scripts": {
     "vscode:prepublish": "yarn run fix:pack && yarn run esbuild-base --minify",
-    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --external:webpack-dep --format=cjs --platform=node",
-    "esbuild": "npm run esbuild-base -- --sourcemap",
-    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-    "pretest": "yarn run test-compile && yarn run lint",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:webpack-dep --format=cjs --platform=node",
+    "esbuild": "yarn run esbuild-base --sourcemap",
+    "esbuild-watch": "yarn run esbuild-base --sourcemap --watch",
     "test-compile": "tsc -p ./",
+    "pretest": "yarn run test-compile",
     "test": "node ./out/test/runTest.js",
-    "lint": "eslint src --ext ts",
     "deploy": "vsce publish --yarn",
     "fix:pack": "yarn run fix:pack:ana-loader",
     "fix:pack:ana-loader": "esbuild ./node_modules/ana-loader/dist/index.js --bundle --outfile=./node_modules/ana-loader/dist/index.js --allow-overwrite --external:vue --external:vue-template-compiler --format=cjs --platform=node --minify",
@@ -168,13 +167,10 @@
     "@types/glob": "^7.1.3",
     "@types/mocha": "^8.2.2",
     "@types/vscode": "^1.59.0",
-    "@typescript-eslint/eslint-plugin": "^4.26.0",
-    "@typescript-eslint/parser": "^4.26.0",
     "@vscode/test-electron": "^2.3.9",
     "@vscode/vsce": "^2.26.0",
     "del": "^6.0.0",
     "esbuild": "^0.15.17",
-    "eslint": "^7.27.0",
     "glob": "^10.3.12",
     "mocha": "^8.4.0",
     "typescript": "^4.4.4"
