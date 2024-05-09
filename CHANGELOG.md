@@ -1,3 +1,7 @@
+# v0.3.4
+
+- Update webpack-dep.
+
 # v0.3.3
 
 - Add feature refresh tree after unlock.

@@ -157,7 +157,7 @@
     "test": "node ./out/test/runTest.js",
     "deploy": "vsce publish --yarn",
     "fix:pack": "yarn run fix:pack:ana-loader",
-    "fix:pack:ana-loader": "esbuild ./node_modules/ana-loader/dist/index.js --bundle --outfile=./node_modules/ana-loader/dist/index.js --allow-overwrite --external:vue --external:vue-template-compiler --format=cjs --platform=node --minify",
+    "fix:pack:ana-loader": "esbuild ./node_modules/ana-loader/dist/index.js --bundle --outfile=./node_modules/ana-loader/dist/index.js --allow-overwrite --external:@vue/compiler-sfc --format=cjs --platform=node --minify",
     "_vscode:pack": "vsce package",
     "_vscode:install": "ls dependency-dependent-*.vsix | xargs code --install-extension",
     "_vscode:uninstall": "code --uninstall-extension zjffun.dependency-dependent"
@@ -176,7 +176,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "webpack-dep": "^0.4.1"
+    "webpack-dep": "^0.4.2"
   },
   "icon": "images/icon.png"
 }
