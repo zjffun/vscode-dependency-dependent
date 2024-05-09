@@ -148,7 +148,7 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "yarn run fix:pack && yarn run esbuild-base --minify",
+    "vscode:prepublish": "yarn run esbuild-base --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:webpack-dep --format=cjs --platform=node",
     "esbuild": "yarn run esbuild-base --sourcemap",
     "esbuild-watch": "yarn run esbuild-base --sourcemap --watch",
@@ -156,8 +156,6 @@
     "pretest": "yarn run test-compile",
     "test": "node ./out/test/runTest.js",
     "deploy": "vsce publish --yarn",
-    "fix:pack": "yarn run fix:pack:ana-loader",
-    "fix:pack:ana-loader": "esbuild ./node_modules/ana-loader/dist/index.js --bundle --outfile=./node_modules/ana-loader/dist/index.js --allow-overwrite --external:@vue/compiler-sfc --format=cjs --platform=node --minify",
     "_vscode:pack": "vsce package",
     "_vscode:install": "ls dependency-dependent-*.vsix | xargs code --install-extension",
     "_vscode:uninstall": "code --uninstall-extension zjffun.dependency-dependent"
@@ -176,7 +174,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "webpack-dep": "^0.4.2"
+    "webpack-dep": "^0.4.3"
   },
   "icon": "images/icon.png"
 }
